@@ -54,4 +54,4 @@ window.addEventListener('DOMContentLoaded', () => {
       setTimeout(waitForMapDiv, 50);
     }
      waitForMapDiv();
-}); 
+}; 
