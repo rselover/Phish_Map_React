@@ -45,7 +45,11 @@ function initMap() {
   });
 }
 
-// Wait for React to render, then initialize the map
+// Wait for React to render #map before initializing Mapbox
 window.addEventListener('DOMContentLoaded', () => {
-  setTimeout(initMap, 100);
-});
+  function waitForMapDiv() {
+    if (document.getElementById('map')) {
+      initMap();
+    } else {
+      setTimeout(waitForMapDiv, 50);
+    }
