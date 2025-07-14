@@ -71,4 +71,7 @@ function App() {
   );
 }
 
+// ...existing code...
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(e(App));
