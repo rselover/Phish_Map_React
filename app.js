@@ -8,17 +8,10 @@ function App() {
   );
 }
 
-// Use React 18's createRoot API
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(e(App));
 
-// Mapbox initialization (after React renders)
+// Initialize map after React renders
 setTimeout(() => {
-  mapboxgl.accessToken = 'pk.eyJ1IjoicnNlbG92ZXIiLCJhIjoiY21hbGJxMGxjMDZ6MDJtb3JqMWx5ZHh0YSJ9.50NQFxaZLsWruJ8dFIqfXw';
-  const map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v11',
-    center: [-98, 39],
-    zoom: 3
-  });
+  initMap();
 }, 100);
