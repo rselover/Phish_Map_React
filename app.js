@@ -8,12 +8,11 @@ function App() {
   );
 }
 
-ReactDOM.render(
-  e(App),
-  document.getElementById('root')
-);
+// Use React 18's createRoot API
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(e(App));
 
-// After React renders, initialize Mapbox (or import from map.js)
+// Mapbox initialization (after React renders)
 setTimeout(() => {
   mapboxgl.accessToken = 'YOUR_MAPBOX_TOKEN';
   const map = new mapboxgl.Map({
@@ -22,5 +21,4 @@ setTimeout(() => {
     center: [-98, 39],
     zoom: 3
   });
-  // Add D3/Deck.gl logic here or import from map.js
 }, 100);
