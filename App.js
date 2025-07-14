@@ -1,5 +1,3 @@
-import './App.css';
-
 const e = React.createElement;
 
 function App() {
