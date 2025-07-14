@@ -14,7 +14,7 @@ root.render(e(App));
 
 // Mapbox initialization (after React renders)
 setTimeout(() => {
-  mapboxgl.accessToken = 'YOUR_MAPBOX_TOKEN';
+  mapboxgl.accessToken = 'pk.eyJ1IjoicnNlbG92ZXIiLCJhIjoiY21hbGJxMGxjMDZ6MDJtb3JqMWx5ZHh0YSJ9.50NQFxaZLsWruJ8dFIqfXw';
   const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
