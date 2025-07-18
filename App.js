@@ -8,23 +8,37 @@ const {
   Container,
   List,
   ListItem,
-  ListItemText
+  ListItemText,
+  IconButton
 } = window['MaterialUI'];
 
 const e = React.createElement;
+const useState = React.useState;
 
 function App() {
+  const [open, setOpen] = useState(true);
+
+  const handleDrawerToggle = () => setOpen(!open);
+
   return e(React.Fragment, null,
     e(CssBaseline),
-    e(AppBar, { position: 'fixed' },
+    e(AppBar, { position: 'fixed', sx: { zIndex: 1300 } },
       e(Toolbar, null,
+        e(IconButton, {
+          color: 'inherit',
+          edge: 'start',
+          onClick: handleDrawerToggle,
+          sx: { mr: 2 }
+        }, e('span', { className: 'material-icons' }, open ? 'chevron_left' : 'menu')),
         e(Typography, { variant: 'h6', noWrap: true, component: 'div' }, 'Phish Song Count Dashboard')
       )
     ),
     e(Drawer, {
-      variant: 'permanent',
+      variant: 'persistent',
+      open: open,
       sx: {
         width: 240,
+        flexShrink: 0,
         [`& .MuiDrawer-paper`]: { width: 240, boxSizing: 'border-box' }
       }
     },
@@ -46,7 +60,8 @@ function App() {
         flexGrow: 1,
         bgcolor: 'background.default',
         p: 3,
-        marginLeft: '240px'
+        marginLeft: open ? '240px' : '0px',
+        transition: 'margin-left 0.3s'
       }
     },
       e(Toolbar),
@@ -70,8 +85,6 @@ function App() {
     )
   );
 }
-
-// ...existing code...
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(e(App));
