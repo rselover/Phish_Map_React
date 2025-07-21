@@ -1,10 +1,12 @@
+const graphCsvUrl = 'https://your-csv-url-for-graph.com/phish_shows_by_year.csv';
+
 function renderShowsByYearPlot() {
-  loadPhishData().then(data => {
+  loadGraphhData().then(data => {
     // Extract year from the data (assuming your CSV has a 'date' field in YYYY-MM-DD format)
     const years = {};
     data.forEach(d => {
-      if (d.date) {
-        const year = +d.date.slice(0, 4);
+      if (d.Date) {
+        const year = +d.Date.slice(0, 4);
         if (!isNaN(year)) {
           years[year] = (years[year] || 0) + 1;
         }
