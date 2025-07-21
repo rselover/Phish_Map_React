@@ -1,15 +1,5 @@
-const graphCsvUrl = 'https://gist.githubusercontent.com/rselover/4557e5bd2a742985c4a7f55acd34fa9a/raw/202f20905e299ffa3963b10f3e8ece3c2fb7eae4/Phish_Groomed_2019-0213.csv';
-
-function loadGraphData() {
-  return d3.csv(graphCsvUrl, row => ({
-    ...row
-  }));
-}
-
 function renderShowsByYearPlot() {
   loadGraphData().then(data => {
-
-    // Use the correct field name from your CSV: "Date"
     const years = {};
     data.forEach(d => {
       const dateStr = d.Date;
@@ -28,7 +18,15 @@ function renderShowsByYearPlot() {
     const plotDiv = document.getElementById('plot');
     plotDiv.innerHTML = '';
 
-    // If no data, show a message
+    // Make the plot fill the card width with similar buffer as the map
+    // Get the parent card content width (the CollapsibleCard's CardContent)
+    let plotWidth = 700;
+    const parent = plotDiv.parentElement;
+    if (parent) {
+      // Subtract padding/margin for a buffer (32px is CardContent default padding)
+      plotWidth = Math.max(300, parent.clientWidth - 32);
+    }
+
     if (yearCounts.length === 0) {
       plotDiv.textContent = "No data to display. Check your CSV field names.";
       return;
@@ -36,8 +34,9 @@ function renderShowsByYearPlot() {
 
     const plot = Plot.plot({
       marginLeft: 40,
+      marginRight: 20,
       marginBottom: 40,
-      width: 700,
+      width: plotWidth,
       height: 300,
       style: {
         background: "#222",
@@ -65,14 +64,3 @@ function renderShowsByYearPlot() {
     plotDiv.appendChild(plot);
   });
 }
-
-window.addEventListener('DOMContentLoaded', () => {
-  function waitForPlotDiv() {
-    if (document.getElementById('plot')) {
-      renderShowsByYearPlot();
-    } else {
-      setTimeout(waitForPlotDiv, 50);
-    }
-  }
-  waitForPlotDiv();
-  });
