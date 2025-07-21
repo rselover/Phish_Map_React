@@ -8,8 +8,6 @@ function loadGraphData() {
 
 function renderShowsByYearPlot() {
   loadGraphData().then(data => {
-    // Debug: check the first row and field names
-    console.log("First row:", data[0]);
 
     // Use the correct field name from your CSV: "Date"
     const years = {};
@@ -27,9 +25,6 @@ function renderShowsByYearPlot() {
       .map(([year, count]) => ({ year: +year, count }))
       .sort((a, b) => a.year - b.year);
 
-    // Debug: check what will be plotted
-    console.log("yearCounts:", yearCounts);
-
     const plotDiv = document.getElementById('plot');
     plotDiv.innerHTML = '';
 
@@ -44,15 +39,26 @@ function renderShowsByYearPlot() {
       marginBottom: 40,
       width: 700,
       height: 300,
+      style: {
+        background: "#222",
+        color: "#eee",
+        fontFamily: "sans-serif"
+      },
       x: {
-        label: "Year"
+        label: "Year",
+        labelAnchor: "center",
+        tickFormat: d => d,
+        axis: "bottom",
+        color: "#eee"
       },
       y: {
-        label: "Shows"
+        label: "Shows",
+        labelAnchor: "center",
+        color: "#eee"
       },
       marks: [
         Plot.barY(yearCounts, { x: "year", y: "count", fill: "#90caf9" }),
-        Plot.ruleY([0])
+        Plot.ruleY([0], { stroke: "#888" })
       ]
     });
 
@@ -69,4 +75,4 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
   waitForPlotDiv();
-});
+  });
