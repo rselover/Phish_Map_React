@@ -16,7 +16,7 @@ const e = React.createElement;
 const useState = React.useState;
 
 function App() {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false); // Drawer starts closed
 
   const handleDrawerToggle = () => setOpen(!open);
 
