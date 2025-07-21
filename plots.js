@@ -1,0 +1,59 @@
+function renderShowsByYearPlot() {
+  loadPhishData().then(data => {
+    // Extract year from the data (assuming your CSV has a 'date' field)
+    // If your CSV does not have a 'date' field, adjust accordingly
+    const years = {};
+    data.forEach(d => {
+      // Try to extract year from d.date, fallback to 0 if not present
+      if (d.date) {
+        const year = +d.date.slice(0, 4);
+        if (!isNaN(year)) {
+          years[year] = (years[year] || 0) + 1;
+        }
+      }
+    });
+
+    // Convert to array for plotting
+    const yearCounts = Object.entries(years)
+      .map(([year, count]) => ({ year: +year, count }))
+      .sort((a, b) => a.year - b.year);
+
+    // Remove any previous plot
+    const plotDiv = document.getElementById('plot');
+    plotDiv.innerHTML = '';
+
+    // Create the plot
+    const plot = Plot.plot({
+      marginLeft: 40,
+      marginBottom: 40,
+      width: 700,
+      height: 300,
+      x: {
+        label: "Year",
+        type: "linear",
+        tickFormat: d => d
+      },
+      y: {
+        label: "Shows"
+      },
+      marks: [
+        Plot.barY(yearCounts, { x: "year", y: "count", fill: "#90caf9" }),
+        Plot.ruleY([0])
+      ]
+    });
+
+    plotDiv.appendChild(plot);
+  });
+}
+
+// Wait for the plot div to exist before rendering
+window.addEventListener('DOMContentLoaded', () => {
+  function waitForPlotDiv() {
+    if (document.getElementById('plot')) {
+      renderShowsByYearPlot();
+    } else {
+      setTimeout(waitForPlotDiv, 50);
+    }
+  }
+  waitForPlotDiv();
+});

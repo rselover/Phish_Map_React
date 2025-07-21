@@ -89,7 +89,8 @@ function App() {
             borderRadius: '8px',
             background: '#222'
           }
-        })
+        }),
+        e('div', { id: 'plot', style: { width: '100%', margin: '2rem 0' } }) // <-- Add this line
       )
     )
   );
