@@ -1,5 +1,18 @@
+// Make sure d3 and Plot are loaded in your HTML for this to work
+
+const graphCsvUrl = 'https://gist.githubusercontent.com/rselover/4557e5bd2a742985c4a7f55acd34fa9a/raw/202f20905e299ffa3963b10f3e8ece3c2fb7eae4/Phish_Groomed_2019-0213.csv';
+
+function loadGraphData() {
+  return d3.csv(graphCsvUrl, row => ({
+    ...row
+  }));
+}
+
 function renderShowsByYearPlot() {
   loadGraphData().then(data => {
+    // Debug: log loaded data
+    // console.log("Loaded data:", data);
+
     const years = {};
     data.forEach(d => {
       const dateStr = d.Date;
@@ -64,3 +77,15 @@ function renderShowsByYearPlot() {
     plotDiv.appendChild(plot);
   });
 }
+
+// Ensure this runs after the DOM is ready and #plot exists
+window.addEventListener('DOMContentLoaded', () => {
+  function waitForPlotDiv() {
+    if (document.getElementById('plot')) {
+      renderShowsByYearPlot();
+    } else {
+      setTimeout(waitForPlotDiv, 50);
+    }
+  }
+  waitForPlotDiv();
+});
