@@ -11,7 +11,12 @@ const {
   ListItemText,
   IconButton,
   ThemeProvider,
-  createTheme
+  createTheme,
+  Card,
+  CardHeader,
+  CardContent,
+  Collapse,
+  Button
 } = window['MaterialUI'];
 
 const e = React.createElement;
@@ -23,6 +28,22 @@ const darkTheme = createTheme({
     mode: 'dark'
   }
 });
+
+function CollapsibleCard({ title, children, defaultOpen = true }) {
+  const [open, setOpen] = useState(defaultOpen);
+  return e(Card, { sx: { mb: 3, background: "#222", color: "#eee", borderRadius: 2 } },
+    e(CardHeader, {
+      title: e(Typography, { variant: 'h6', sx: { color: "#90caf9" } }, title),
+      action: e(IconButton, {
+        onClick: () => setOpen(!open),
+        color: "inherit"
+      }, e('span', { className: 'material-icons' }, open ? 'expand_less' : 'expand_more'))
+    }),
+    e(Collapse, { in: open, timeout: "auto", unmountOnExit: false },
+      e(CardContent, null, children)
+    )
+  );
+}
 
 function App() {
   const [open, setOpen] = useState(false); // Drawer starts closed
@@ -79,18 +100,22 @@ function App() {
         e(Typography, { variant: 'subtitle1', gutterBottom: true },
           'Find Yourself a City to Live In – Songs from every Phish show aggregated by City'
         ),
-        e('div', {
-          id: 'map',
-          style: {
-            width: '100%',
-            height: '60vh',
-            margin: '2rem 0',
-            border: '1px solid #333',
-            borderRadius: '8px',
-            background: '#222'
-          }
-        }),
-        e('div', { id: 'plot', style: { width: '100%', margin: '2rem 0' } }) // <-- Add this line
+        e(CollapsibleCard, { title: "Map", defaultOpen: true },
+          e('div', {
+            id: 'map',
+            style: {
+              width: '100%',
+              height: '60vh',
+              margin: '2rem 0',
+              border: '1px solid #333',
+              borderRadius: '8px',
+              background: '#222'
+            }
+          })
+        ),
+        e(CollapsibleCard, { title: "Shows by Year", defaultOpen: true },
+          e('div', { id: 'plot', style: { width: '100%', margin: '2rem 0' } })
+        )
       )
     )
   );
