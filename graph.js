@@ -59,7 +59,7 @@ function renderShowsByYearPlot() {
       x: {
         label: "Year",
         labelAnchor: "center",
-        tickFormat: d => d,
+        tickFormat: d => String(d), // Ensures no commas in year labels
         axis: "bottom",
         color: "#eee"
       },
