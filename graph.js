@@ -28,7 +28,7 @@ function renderShowsByYearPlot() {
       height: 300,
       x: {
         label: "Year",
-        type: "linear" // Fix: ensure x axis is linear for numeric years
+        //type: "linear" // Fix: ensure x axis is linear for numeric years
       },
       y: {
         label: "Shows"
