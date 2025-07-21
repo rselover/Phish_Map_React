@@ -68,3 +68,5 @@ window.addEventListener('DOMContentLoaded', () => {
       setTimeout(waitForPlotDiv, 50);
     }
   }
+  waitForPlotDiv();
+});
