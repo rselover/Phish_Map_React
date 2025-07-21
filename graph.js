@@ -1,10 +1,8 @@
 function renderShowsByYearPlot() {
   loadPhishData().then(data => {
-    // Extract year from the data (assuming your CSV has a 'date' field)
-    // If your CSV does not have a 'date' field, adjust accordingly
+    // Extract year from the data (assuming your CSV has a 'date' field in YYYY-MM-DD format)
     const years = {};
     data.forEach(d => {
-      // Try to extract year from d.date, fallback to 0 if not present
       if (d.date) {
         const year = +d.date.slice(0, 4);
         if (!isNaN(year)) {
@@ -30,8 +28,7 @@ function renderShowsByYearPlot() {
       height: 300,
       x: {
         label: "Year",
-        type: "linear",
-        tickFormat: d => d
+        type: "linear" // Fix: ensure x axis is linear for numeric years
       },
       y: {
         label: "Shows"
