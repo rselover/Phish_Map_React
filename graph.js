@@ -8,10 +8,15 @@ function loadGraphData() {
 
 function renderShowsByYearPlot() {
   loadGraphData().then(data => {
+    // Debug: check the first row and field names
+    console.log("First row:", data[0]);
+
+    // Use the correct field name from your CSV: "Date"
     const years = {};
     data.forEach(d => {
-      if (d.ShowDate) {
-        const year = +d.ShowDate.slice(0, 4);
+      const dateStr = d.Date;
+      if (dateStr) {
+        const year = +dateStr.slice(0, 4);
         if (!isNaN(year)) {
           years[year] = (years[year] || 0) + 1;
         }
@@ -22,8 +27,17 @@ function renderShowsByYearPlot() {
       .map(([year, count]) => ({ year: +year, count }))
       .sort((a, b) => a.year - b.year);
 
+    // Debug: check what will be plotted
+    console.log("yearCounts:", yearCounts);
+
     const plotDiv = document.getElementById('plot');
     plotDiv.innerHTML = '';
+
+    // If no data, show a message
+    if (yearCounts.length === 0) {
+      plotDiv.textContent = "No data to display. Check your CSV field names.";
+      return;
+    }
 
     const plot = Plot.plot({
       marginLeft: 40,
@@ -54,5 +68,3 @@ window.addEventListener('DOMContentLoaded', () => {
       setTimeout(waitForPlotDiv, 50);
     }
   }
-  waitForPlotDiv();
-});
