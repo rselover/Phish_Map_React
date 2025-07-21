@@ -9,18 +9,27 @@ const {
   List,
   ListItem,
   ListItemText,
-  IconButton
+  IconButton,
+  ThemeProvider,
+  createTheme
 } = window['MaterialUI'];
 
 const e = React.createElement;
 const useState = React.useState;
+
+// Create a dark theme
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark'
+  }
+});
 
 function App() {
   const [open, setOpen] = useState(false); // Drawer starts closed
 
   const handleDrawerToggle = () => setOpen(!open);
 
-  return e(React.Fragment, null,
+  return e(ThemeProvider, { theme: darkTheme },
     e(CssBaseline),
     e(AppBar, { position: 'fixed', sx: { zIndex: 1300 } },
       e(Toolbar, null,
@@ -76,9 +85,9 @@ function App() {
             width: '100%',
             height: '60vh',
             margin: '2rem 0',
-            border: '1px solid #ccc',
+            border: '1px solid #333',
             borderRadius: '8px',
-            background: '#fff'
+            background: '#222'
           }
         })
       )
