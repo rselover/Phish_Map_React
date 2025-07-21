@@ -1,36 +1,37 @@
-const graphCsvUrl = 'https://gist.githubusercontent.com/rselover/9d4c1543a8dc994ca151cff20aa8fe1f/raw/5a99753828073ee1d90d1b2bbf4da2393209e414/phish_geocode.csv';
+const graphCsvUrl = 'https://gist.githubusercontent.com/rselover/4557e5bd2a742985c4a7f55acd34fa9a/raw/202f20905e299ffa3963b10f3e8ece3c2fb7eae4/Phish_Groomed_2019-0213.csv';
+
+function loadGraphData() {
+  return d3.csv(graphCsvUrl, row => ({
+    ...row
+  }));
+}
 
 function renderShowsByYearPlot() {
   loadGraphData().then(data => {
-    // Extract year from the data (assuming your CSV has a 'date' field in YYYY-MM-DD format)
     const years = {};
     data.forEach(d => {
-      if (d.Date) {
-        const year = +d.Date.slice(0, 4);
+      if (d.ShowDate) {
+        const year = +d.ShowDate.slice(0, 4);
         if (!isNaN(year)) {
           years[year] = (years[year] || 0) + 1;
         }
       }
     });
 
-    // Convert to array for plotting
     const yearCounts = Object.entries(years)
       .map(([year, count]) => ({ year: +year, count }))
       .sort((a, b) => a.year - b.year);
 
-    // Remove any previous plot
     const plotDiv = document.getElementById('plot');
     plotDiv.innerHTML = '';
 
-    // Create the plot
     const plot = Plot.plot({
       marginLeft: 40,
       marginBottom: 40,
       width: 700,
       height: 300,
       x: {
-        label: "Year",
-        //type: "linear" // Fix: ensure x axis is linear for numeric years
+        label: "Year"
       },
       y: {
         label: "Shows"
@@ -45,7 +46,6 @@ function renderShowsByYearPlot() {
   });
 }
 
-// Wait for the plot div to exist before rendering
 window.addEventListener('DOMContentLoaded', () => {
   function waitForPlotDiv() {
     if (document.getElementById('plot')) {
